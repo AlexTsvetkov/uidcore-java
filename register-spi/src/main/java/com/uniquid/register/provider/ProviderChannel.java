@@ -21,13 +21,16 @@ public class ProviderChannel implements Serializable {
 
     private String providerAddress;
     private String userAddress;
-    private String revokeAddress;
     private String bitmask;
+    private String revokeAddress;
     private String revokeTxId;
     private long creationTime;
     private long since;
     private long until;
     private String path;
+    private String userXpub;
+    private String userTpub;
+
 
     /**
      * Creates an empty instance
@@ -40,8 +43,8 @@ public class ProviderChannel implements Serializable {
      * Creates an instance from provider address, user address and bitmask.
      *
      * @param providerAddress the address of the provider
-     * @param userAddress the address of the user
-     * @param bitmask the string representing the bitmask
+     * @param userAddress     the address of the user
+     * @param bitmask         the string representing the bitmask
      */
     public ProviderChannel(String providerAddress, String userAddress, String bitmask) {
         this.providerAddress = providerAddress;
@@ -169,19 +172,41 @@ public class ProviderChannel implements Serializable {
         return path;
     }
 
+    public String getUserXpub() {
+        return userXpub;
+    }
+
+    public void setUserXpub(String userXpub) {
+        this.userXpub = userXpub;
+    }
+
+    public String getUserTpub() {
+        return userTpub;
+    }
+
+    public void setUserTpub(String userTpub) {
+        this.userTpub = userTpub;
+    }
+
     public boolean isValid() {
-
         return (System.currentTimeMillis() >= since) && (System.currentTimeMillis() <= until);
-
     }
 
     @Override
     public String toString() {
-
-        return String.format("Provider address %s; user address %s; bitmask %s; revoke address %s; revokeTxId %s; " +
-                        "creation time %d; since %d; until %d; path %s", providerAddress, userAddress, bitmask, revokeAddress, revokeTxId,
-                creationTime, since, until, path);
-
+        return "ProviderChannel{" +
+                "providerAddress='" + providerAddress + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", revokeAddress='" + revokeAddress + '\'' +
+                ", bitmask='" + bitmask + '\'' +
+                ", revokeTxId='" + revokeTxId + '\'' +
+                ", creationTime=" + creationTime +
+                ", since=" + since +
+                ", until=" + until +
+                ", path='" + path + '\'' +
+                ", userXpub='" + userXpub + '\'' +
+                ", userTpub='" + userTpub + '\'' +
+                '}';
     }
 
     @Override
@@ -203,14 +228,14 @@ public class ProviderChannel implements Serializable {
                 creationTime == providerChannel.creationTime &&
                 since == providerChannel.since &&
                 until == providerChannel.until &&
-                Objects.equals(path, providerChannel.path);
+                Objects.equals(path, providerChannel.path) &&
+                Objects.equals(userXpub, providerChannel.userXpub) &&
+                Objects.equals(userTpub, providerChannel.userTpub);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(providerAddress, userAddress, revokeAddress, bitmask, revokeTxId, creationTime, since, until, path);
-
+        return Objects.hash(providerAddress, userAddress, revokeAddress, bitmask, revokeTxId, creationTime, since, until, path, userXpub, userTpub);
     }
 
 }
