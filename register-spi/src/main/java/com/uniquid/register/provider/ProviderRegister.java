@@ -58,6 +58,13 @@ public interface ProviderRegister {
     void insertChannel(ProviderChannel providerChannel) throws RegisterException;
 
     /**
+     * Updates existing {@code ProviderChannel} in the data store.
+     * @param providerChannel the Provider Channel to update.
+     * @throws RegisterException in case a problem occurs.
+     */
+    void updateChannel(ProviderChannel providerChannel) throws RegisterException;
+
+    /**
      * Deletes an {@code ProviderChannel} from the data store.
      * @param providerChannel the Provider Channel to delete.
      * @throws RegisterException in case a problem occurs.

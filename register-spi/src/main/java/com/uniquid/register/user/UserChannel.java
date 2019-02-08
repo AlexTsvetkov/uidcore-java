@@ -179,6 +179,22 @@ public class UserChannel implements Serializable, Comparable<Object> {
         this.path = path;
     }
 
+    public String getProviderXpub() {
+        return providerXpub;
+    }
+
+    public void setProviderXpub(String providerXpub) {
+        this.providerXpub = providerXpub;
+    }
+
+    public String getProviderTpub() {
+        return providerTpub;
+    }
+
+    public void setProviderTpub(String providerTpub) {
+        this.providerTpub = providerTpub;
+    }
+
     public boolean isValid() {
 
         return (System.currentTimeMillis() >= since) && (System.currentTimeMillis() <= until);

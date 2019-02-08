@@ -36,6 +36,8 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
 
     private static final String PROVIDER_INSERT = "insert into provider_channel (provider_address, user_address, bitmask, revoke_address, revoke_tx_id, creation_time, since, until, path) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
+    private static final String PROVIDER_UPDATE = "update into provider_channel (userXpub, userTpub) values (?, ?) where provider_address = ? and user_address = ?;;";
+
     private static final String PROVIDER_DELETE = "delete from provider_channel where provider_address = ? and user_address = ?;";
 
     private static final String PROVIDER_ALL_CHANNEL = "select provider_address, user_address, bitmask, revoke_address, revoke_tx_id, creation_time, since, until, path from provider_channel order by creation_time desc;";
@@ -52,6 +54,8 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
     private static final String USER_CHANNEL_BY_REVOKE_ADDRESS = "select provider_name, provider_address, user_address, bitmask, revoke_address, revoke_tx_id, since, until, path from user_channel where revoke_address = ?;";
 
     private static final String INSERT_USER_CHANNEL = "insert into user_channel (provider_name, provider_address, user_address, bitmask, revoke_address, revoke_tx_id, since, until, path) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    private static final String UPDATE_USER_CHANNEL = "update user_channel (providerXpub, providerTpub) values (?, ?)  where provider_name = ? and provider_address = ? and user_address = ?;";
 
     private static final String USER_CHANNEL_DELETE = "delete from user_channel where provider_name = ? and provider_address = ? and user_address = ?";
 
@@ -266,6 +270,28 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
      * {@inheritDoc}
      */
     @Override
+    public void updateChannel(ProviderChannel providerChannel) throws RegisterException {
+
+        if (providerChannel == null) throw new RegisterException("providerChannel is null!");
+        Validate.isTrue(providerChannel.isValid(), "providerChannel is not valid");
+
+        TransactionAwareQueryRunner run = getQueryRunner();
+
+        try {
+            run.update(PROVIDER_UPDATE, providerChannel.getUserXpub(), providerChannel.getUserTpub(),
+                    providerChannel.getProviderAddress(), providerChannel.getUserAddress());
+
+        } catch (SQLException ex) {
+
+            throw new RegisterException("Exception while updateChannel()", ex);
+
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void deleteChannel(ProviderChannel providerChannel) throws RegisterException {
 
         if (providerChannel == null) throw new RegisterException("providerChannel is null!");
@@ -347,7 +373,7 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
 
                     UserChannel userChannel = userChannelFromResultSet(rs);
 
-                    if(userChannel.isValid()) {
+                    if (userChannel.isValid()) {
                         userChannels.add(userChannel);
                     }
 
@@ -442,11 +468,35 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
 
             run.update(INSERT_USER_CHANNEL, userChannel.getProviderName(), userChannel.getProviderAddress(),
                     userChannel.getUserAddress(), userChannel.getBitmask(), userChannel.getRevokeAddress(),
-                    userChannel.getRevokeTxId(), userChannel.getSince(), userChannel.getUntil(), userChannel.getPath() );
+                    userChannel.getRevokeTxId(), userChannel.getSince(), userChannel.getUntil(), userChannel.getPath());
 
         } catch (SQLException ex) {
 
             throw new RegisterException("Exception while insertChannel()", ex);
+
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateChannel(UserChannel userChannel) throws RegisterException {
+
+        if (userChannel == null) throw new RegisterException("userChannel is null!");
+        Validate.isTrue(userChannel.isValid(), "userChannel is not valid");
+
+        TransactionAwareQueryRunner run = getQueryRunner();
+
+        try {
+
+            run.update(UPDATE_USER_CHANNEL, userChannel.getProviderName(), userChannel.getProviderAddress(),
+                    userChannel.getUserAddress(), userChannel.getProviderXpub(), userChannel.getProviderTpub());
+
+        } catch (SQLException ex) {
+
+            throw new RegisterException("Exception while updateChannel()", ex);
 
         }
 
@@ -465,7 +515,7 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
         try {
 
             run.update(USER_CHANNEL_DELETE, userChannel.getProviderName(),
-                    userChannel.getProviderAddress(), userChannel.getUserAddress() );
+                    userChannel.getProviderAddress(), userChannel.getUserAddress());
 
         } catch (SQLException ex) {
 
