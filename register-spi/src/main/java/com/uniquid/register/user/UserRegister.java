@@ -65,6 +65,14 @@ public interface UserRegister {
      */
     void insertChannel(UserChannel userChannel) throws RegisterException;
 
+
+    /**
+     * Updates existing {@code UserChannel} in the data store.
+     * @param userChannel the User Channel to update.
+     * @throws RegisterException in case a problem occurs.
+     */
+    void updateChannel(UserChannel userChannel) throws RegisterException;
+
     /**
      * Deletes an {@code UserChannel} from the data store.
      * @param userChannel the User Channel to delete.

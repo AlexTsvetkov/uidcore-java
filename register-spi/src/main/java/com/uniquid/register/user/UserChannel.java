@@ -24,9 +24,11 @@ public class UserChannel implements Serializable, Comparable<Object> {
     private String bitmask;
     private String revokeAddress;
     private String revokeTxId;
-    private String path;
     private long since;
     private long until;
+    private String path;
+    private String providerXpub;
+    private String providerTpub;
 
     /**
      * Creates an empty instance
@@ -38,12 +40,12 @@ public class UserChannel implements Serializable, Comparable<Object> {
     /**
      * Creates an instance from provider name, provider address, user address and bitmask.
      *
-     * @param providerName the name of the provider
+     * @param providerName    the name of the provider
      * @param providerAddress the address of the provider
-     * @param userAddress the address of the user
-     * @param bitmask the string representing the bitmask
+     * @param userAddress     the address of the user
+     * @param bitmask         the string representing the bitmask
      */
-    public UserChannel(String providerName, String providerAddress, String userAddress, String bitmask){
+    public UserChannel(String providerName, String providerAddress, String userAddress, String bitmask) {
         this.providerName = providerName;
         this.providerAddress = providerAddress;
         this.userAddress = userAddress;
@@ -177,6 +179,22 @@ public class UserChannel implements Serializable, Comparable<Object> {
         this.path = path;
     }
 
+    public String getProviderXpub() {
+        return providerXpub;
+    }
+
+    public void setProviderXpub(String providerXpub) {
+        this.providerXpub = providerXpub;
+    }
+
+    public String getProviderTpub() {
+        return providerTpub;
+    }
+
+    public void setProviderTpub(String providerTpub) {
+        this.providerTpub = providerTpub;
+    }
+
     public boolean isValid() {
 
         return (System.currentTimeMillis() >= since) && (System.currentTimeMillis() <= until);
@@ -185,8 +203,19 @@ public class UserChannel implements Serializable, Comparable<Object> {
 
     @Override
     public String toString() {
-        return "provider address: " + providerAddress + "; user address: " + userAddress + "; bitmask: " + bitmask +
-                "; revoke address: " + revokeAddress + "; revokeTxId: " + revokeTxId + "; since: " + since + "; until: " + until + "; path: " + path;
+        return "UserChannel{" +
+                "providerName='" + providerName + '\'' +
+                ", providerAddress='" + providerAddress + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", bitmask='" + bitmask + '\'' +
+                ", revokeAddress='" + revokeAddress + '\'' +
+                ", revokeTxId='" + revokeTxId + '\'' +
+                ", since=" + since +
+                ", until=" + until +
+                ", path='" + path + '\'' +
+                ", providerXpub='" + providerXpub + '\'' +
+                ", providerTpub='" + providerTpub + '\'' +
+                '}';
     }
 
     @Override
@@ -208,13 +237,15 @@ public class UserChannel implements Serializable, Comparable<Object> {
                 Objects.equals(revokeTxId, userChannel.revokeTxId) &&
                 since == userChannel.since &&
                 until == userChannel.until &&
-                Objects.equals(path, userChannel.path);
+                Objects.equals(path, userChannel.path) &&
+                Objects.equals(providerXpub, userChannel.providerXpub) &&
+                Objects.equals(providerTpub, userChannel.providerTpub);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(providerName, providerAddress, userAddress, bitmask, revokeAddress, revokeTxId, since, until, path);
+        return Objects.hash(providerName, providerAddress, userAddress, bitmask, revokeAddress, revokeTxId, since, until, path, providerXpub, providerTpub);
 
     }
 
