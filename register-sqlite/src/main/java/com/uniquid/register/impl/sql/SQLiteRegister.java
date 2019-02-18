@@ -335,8 +335,8 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
         userChannel.setSince(rs.getLong("since"));
         userChannel.setUntil(rs.getLong("until"));
         userChannel.setPath(rs.getString("path"));
-        userChannel.setProviderXpub(rs.getString("provider_xpub"));
-        userChannel.setProviderTpub(rs.getString("provider_tpub"));
+        userChannel.setProviderXPub(rs.getString("provider_xpub"));
+        userChannel.setProviderTPub(rs.getString("provider_tpub"));
 
         return userChannel;
 
@@ -497,7 +497,7 @@ public class SQLiteRegister implements ProviderRegister, UserRegister {
         TransactionAwareQueryRunner run = getQueryRunner();
 
         try {
-            run.update(UPDATE_USER_CHANNEL, userChannel.getProviderXpub(), userChannel.getProviderTpub(),
+            run.update(UPDATE_USER_CHANNEL, userChannel.getProviderXPub(), userChannel.getProviderTPub(),
                     userChannel.getProviderName(), userChannel.getProviderAddress(), userChannel.getUserAddress());
 
         } catch (SQLException ex) {

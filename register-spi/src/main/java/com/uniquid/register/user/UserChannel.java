@@ -27,8 +27,8 @@ public class UserChannel implements Serializable, Comparable<Object> {
     private long since;
     private long until;
     private String path;
-    private String providerXpub;
-    private String providerTpub;
+    private String providerXPub;
+    private String providerTPub;
 
     /**
      * Creates an empty instance
@@ -179,20 +179,20 @@ public class UserChannel implements Serializable, Comparable<Object> {
         this.path = path;
     }
 
-    public String getProviderXpub() {
-        return providerXpub;
+    public String getProviderXPub() {
+        return providerXPub;
     }
 
-    public void setProviderXpub(String providerXpub) {
-        this.providerXpub = providerXpub;
+    public void setProviderXPub(String providerXPub) {
+        this.providerXPub = providerXPub;
     }
 
-    public String getProviderTpub() {
-        return providerTpub;
+    public String getProviderTPub() {
+        return providerTPub;
     }
 
-    public void setProviderTpub(String providerTpub) {
-        this.providerTpub = providerTpub;
+    public void setProviderTPub(String providerTPub) {
+        this.providerTPub = providerTPub;
     }
 
     public boolean isValid() {
@@ -213,8 +213,8 @@ public class UserChannel implements Serializable, Comparable<Object> {
                 ", since=" + since +
                 ", until=" + until +
                 ", path='" + path + '\'' +
-                ", providerXpub='" + providerXpub + '\'' +
-                ", providerTpub='" + providerTpub + '\'' +
+                ", providerXPub='" + providerXPub + '\'' +
+                ", providerTPub='" + providerTPub + '\'' +
                 '}';
     }
 
@@ -238,14 +238,14 @@ public class UserChannel implements Serializable, Comparable<Object> {
                 since == userChannel.since &&
                 until == userChannel.until &&
                 Objects.equals(path, userChannel.path) &&
-                Objects.equals(providerXpub, userChannel.providerXpub) &&
-                Objects.equals(providerTpub, userChannel.providerTpub);
+                Objects.equals(providerXPub, userChannel.providerXPub) &&
+                Objects.equals(providerTPub, userChannel.providerTPub);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(providerName, providerAddress, userAddress, bitmask, revokeAddress, revokeTxId, since, until, path, providerXpub, providerTpub);
+        return Objects.hash(providerName, providerAddress, userAddress, bitmask, revokeAddress, revokeTxId, since, until, path, providerXPub, providerTPub);
 
     }
 
